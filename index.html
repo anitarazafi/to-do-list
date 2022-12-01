@@ -5,10 +5,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;500;700&display=swap"
+      rel="stylesheet"
+    />
     <title>To-do List</title>
   </head>
   <body>
-    <main class="main">To-do list</main>
+    <main class="main">
+      <div class="container">
+        <h1 class="title">TO-DO LIST</h1>
+        <div class="add-item">
+          <input
+            type="text"
+            class="add-item__input"
+            placeholder="Add a task ..."
+          />
+          <button class="btn add-item__button">ADD</button>
+        </div>
+        <div class="list__container">
+          <ul class="list__items">
+            <li class="list__item">
+              <div class="list__item">
+                <span class="list__item__text">List item 1</span>
+                <span class="list__item__action">
+                  <button class="btn action mark-as-done">
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                  <button class="btn action edit">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button class="btn action delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </span>
+              </div>
+            </li>
+            <li class="list__item">
+              <div class="list__item">
+                <input
+                  type="text"
+                  class="list__item__edit"
+                  placeholder="edit"
+                />
+                <button class="btn save">Save</button>
+              </div>
+            </li>
+            <li class="list__item">
+              <div class="list__item">
+                <span class="list__item__text done">List item 2</span>
+                <span class="list__item__action">
+                  <button class="btn action undo">
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                  <button class="btn action edit">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button class="btn action delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </span>
+              </div>
+            </li>
+          </ul>
+          <div class="message hidden">
+            Start adding tasks to your to-do list :D
+          </div>
+          <!--           <div class="delete-modal">
+            <span>Delete task?</span>
+            <span class="delete-modal__action">
+              <button class="btn delete-modal__yes">Yes</button>
+              <button class="btn delete-modal__no">No</button>
+            </span>
+          </div> -->
+        </div>
+      </div>
+    </main>
+    <script
+      src="https://kit.fontawesome.com/b3419bd60f.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="script.js"></script>
   </body>
 </html>
