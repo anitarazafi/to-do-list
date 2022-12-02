@@ -1,3 +1,7 @@
+//TODO: ADD EDIT FUNCTION AND EVENT LISTENER
+//TODO: SAVE THE STATE OF A TASK : DONE OR NOT
+//TODO: FIX CLEARALL ISSUE
+
 const newTaskInput = document.querySelector("#new-task-input");
 const newTaskBtn = document.querySelector("#add-new-task");
 
@@ -110,6 +114,49 @@ const addTaskToList = function (newTask) {
   appendMarkup(markup, taskContainer);
 };
 
+//Clear all list
+const clearList = function () {
+  localStorage.clear();
+  tasks = [];
+  taskContainer.innerHTML = "";
+  showEmptyTaskMessage();
+  hideClearAllBtn();
+};
+
+//Delete a task
+//TODO: REMOVE THE CLEARALL BTN WHEN THE LAST TASK DELETED MANUALLY
+const deleteTask = function (e) {
+  const item = e.target.closest("li.list__item");
+  console.log(item);
+  item.remove();
+  const itemValue = item.querySelector(".list__item__text").textContent;
+  tasks.splice(tasks.indexOf(item), 1);
+  storeTasks();
+  updateTaskList();
+};
+
+//Mark as read
+const toggleCheck = function (e) {
+  e.target
+    .closest("li.list__item")
+    .querySelector(".list__item__text")
+    .classList.toggle("done");
+  e.target.closest(".btn").classList.toggle("undo");
+};
+
+//Add event listeners to actions
+const addActions = function () {
+  const deleteTaskBtn = document.querySelectorAll(".delete");
+  deleteTaskBtn.forEach((del) => {
+    del.addEventListener("click", deleteTask);
+  });
+
+  const checkBtn = document.querySelectorAll(".mark-as-done");
+  checkBtn.forEach((check) => {
+    check.addEventListener("click", toggleCheck);
+  });
+};
+
 //Init
 const init = function () {
   if (isTaskEmpty()) {
@@ -119,6 +166,7 @@ const init = function () {
     showClearAllBtn();
     clearAllBtn = document.querySelector(".clear");
     clearAllBtn.addEventListener("click", clearList);
+    addActions();
   }
 };
 init();
@@ -130,6 +178,7 @@ const updateTaskList = function () {
     showClearAllBtn();
     clearAllBtn = document.querySelector(".clear");
     clearAllBtn.addEventListener("click", clearList);
+    addActions();
   } else {
     showEmptyTaskMessage();
   }
@@ -153,11 +202,3 @@ newTaskInput.addEventListener("keydown", (e) => {
     addNewTask();
   }
 });
-
-//Clear list
-const clearList = function () {
-  localStorage.clear();
-  taskContainer.innerHTML = "";
-  showEmptyTaskMessage();
-  hideClearAllBtn();
-};
