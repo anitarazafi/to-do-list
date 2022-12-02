@@ -118,8 +118,8 @@ body {
 }
 
 .action {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
 }
 
 .save {
@@ -145,7 +145,7 @@ body {
 }
 
 .action i {
-  font-size: 20px;
+  font-size: 16px;
 
   color: #fff;
 }
@@ -157,7 +157,7 @@ body {
   align-items: center;
   padding: 0px;
 
-  width: 150px;
+  width: 100px;
   height: 40px;
 }
 
@@ -206,7 +206,6 @@ ul.list__items li {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: cen;
   padding: 50px 25px;
 
   width: 650px;
@@ -217,7 +216,6 @@ ul.list__items li {
 
 .message {
   width: 100%;
-  margin: 20px;
   padding: 10px 20px;
   border-radius: 10px;
 
@@ -268,4 +266,13 @@ ul.list__items li {
 
   background: #ced4da;
   border-radius: 10px;
+}
+
+.clear {
+  margin: 10px;
+  padding: 5px 16px;
+  background-color: #dc3545;
+  border-radius: 10px;
+  color: #fff;
+  align-self: flex-end;
 }
