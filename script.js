@@ -1,6 +1,5 @@
 //TODO: ADD EDIT FUNCTION AND EVENT LISTENER
 //TODO: SAVE THE STATE OF A TASK : DONE OR NOT
-//TODO: FIX CLEARALL ISSUE
 
 const newTaskInput = document.querySelector("#new-task-input");
 const newTaskBtn = document.querySelector("#add-new-task");
@@ -124,15 +123,16 @@ const clearList = function () {
 };
 
 //Delete a task
-//TODO: REMOVE THE CLEARALL BTN WHEN THE LAST TASK DELETED MANUALLY
 const deleteTask = function (e) {
   const item = e.target.closest("li.list__item");
-  console.log(item);
   item.remove();
   const itemValue = item.querySelector(".list__item__text").textContent;
   tasks.splice(tasks.indexOf(item), 1);
   storeTasks();
   updateTaskList();
+  if (tasks.length === 0) {
+    clearList();
+  }
 };
 
 //Mark as read
