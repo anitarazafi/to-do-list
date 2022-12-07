@@ -1,4 +1,3 @@
-//TODO: ADD EDIT FUNCTION AND EVENT LISTENER
 //TODO: SAVE THE STATE OF A TASK : DONE OR NOT
 
 const newTaskInput = document.querySelector("#new-task-input");
@@ -135,6 +134,70 @@ const deleteTask = function (e) {
   }
 };
 
+//Show edit input
+const showEditInput = function (e) {
+  const item = e.target.closest("li.list__item");
+  const oldValue = item.querySelector(".list__item__text").textContent;
+  const taskIndex = tasks.indexOf(oldValue);
+
+  item.innerHTML = `
+    <div class="list__item">
+      <input
+        type="text"
+        class="list__item__edit"
+        value = "${oldValue}"
+      />
+      <button class="btn save">Save</button>
+    </div>
+    `;
+
+  //Get new value
+  const getNewValue = function (e) {
+    const newValue = e.target
+      .closest(".list__item")
+      .querySelector("input").value;
+    return newValue;
+  };
+
+  //Save edited task
+  const save = function (e) {
+    tasks[taskIndex] = getNewValue(e);
+    storeTasks();
+    item.innerHTML = `
+        <div class="list__item">
+            <span class="list__item__text">${tasks[taskIndex]}</span>
+            <span class="list__item__action">
+                <button class="btn action mark-as-done">
+                <i class="fa-solid fa-check"></i>
+                </button>
+                <button class="btn action edit">
+                <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn action delete">
+                <i class="fa-solid fa-trash"></i>
+                </button>
+            </span>
+        </div>
+    `;
+    updateTaskList();
+  };
+
+  const saveBtn = item.querySelector(".save");
+  saveBtn.addEventListener("click", save);
+
+  const editInput = document.querySelector(".list__item__edit");
+  editInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      save(e);
+    }
+  });
+};
+
+//Edit task
+const editTask = function (e) {
+  showEditInput(e);
+};
+
 //Mark as read
 const toggleCheck = function (e) {
   e.target
@@ -149,6 +212,11 @@ const addActions = function () {
   const deleteTaskBtn = document.querySelectorAll(".delete");
   deleteTaskBtn.forEach((del) => {
     del.addEventListener("click", deleteTask);
+  });
+
+  const editTaskBtn = document.querySelectorAll(".edit");
+  editTaskBtn.forEach((edit) => {
+    edit.addEventListener("click", editTask);
   });
 
   const checkBtn = document.querySelectorAll(".mark-as-done");
