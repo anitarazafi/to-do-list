@@ -46,9 +46,14 @@ body {
   padding: 0px;
   gap: 20px;
 
-  width: 650px;
   min-height: 650px;
   margin: 0 auto;
+}
+
+@media (min-width: 760px) {
+  .container {
+    width: 650px;
+  }
 }
 
 .title {
@@ -102,10 +107,17 @@ body {
   align-items: center;
   padding: 20px;
 
-  width: 650px;
+  width: auto;
+  min-width: 300px;
 
   background: #ffffff;
   border-radius: 20px;
+}
+
+@media (min-width: 760px) {
+  .add-item {
+    width: 650px;
+  }
 }
 
 .action,
@@ -189,6 +201,8 @@ ul.list__items {
 
 ul.list__items li {
   margin-top: 12px;
+
+  border-bottom: 0.3px solid #444;
 }
 
 .list__item {
@@ -198,8 +212,15 @@ ul.list__items li {
   align-items: center;
   gap: 10px;
 
-  width: 650px;
+  width: 100%;
+  min-width: 300px;
   height: 40px;
+}
+
+@media (min-width: 760px) {
+  .list__item {
+    width: 650px;
+  }
 }
 
 .list__container {
@@ -208,10 +229,16 @@ ul.list__items li {
   align-items: center;
   padding: 50px 25px;
 
-  width: 650px;
+  width: auto;
 
   background: #ffffff;
   border-radius: 20px;
+}
+
+@media (min-width: 760px) {
+  .list__container {
+    width: 650px;
+  }
 }
 
 .message {
