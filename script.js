@@ -1,5 +1,3 @@
-//TODO: SAVE THE STATE OF A TASK : DONE OR NOT
-
 const newTaskInput = document.querySelector("#new-task-input");
 const newTaskBtn = document.querySelector("#add-new-task");
 
@@ -9,6 +7,7 @@ const listContainer = document.querySelector(".list__container");
 let clearAllBtn = null;
 
 let tasks = [];
+let taskDone = [];
 
 //Add task to the list
 const appendMarkup = function (markup, parentElement) {
@@ -18,11 +17,16 @@ const appendMarkup = function (markup, parentElement) {
 //Store tasks to localStorage
 const storeTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("taskDone", JSON.stringify(taskDone));
 };
 
 //Get tasks from localStorage
 const getTasks = function () {
   return localStorage.getItem("tasks");
+};
+
+const getTasksDone = function () {
+  return localStorage.getItem("taskDone");
 };
 
 //Check if task list is empty
@@ -66,13 +70,18 @@ const showClearAllBtn = function () {
 //Render tasks
 const renderTasks = function () {
   tasks = JSON.parse(getTasks());
+  taskDone = JSON.parse(getTasksDone());
   tasks.forEach((task) => {
     const markup = `
         <li class="list__item">
             <div class="list__item">
-                <span class="list__item__text">${task}</span>
+                <span class="list__item__text ${
+                  taskDone.includes(task) ? "done" : ""
+                }">${task}</span>
                 <span class="list__item__action">
-                    <button class="btn action mark-as-done">
+                    <button class="btn action mark-as-done ${
+                      taskDone.includes(task) ? "undo" : ""
+                    }">
                     <i class="fa-solid fa-check"></i>
                     </button>
                     <button class="btn action edit">
@@ -134,6 +143,13 @@ const deleteTask = function (e) {
   }
 };
 
+//Remove from taskDone
+const undoTask = function (task) {
+  taskDone.splice(taskDone.indexOf(task), 1);
+  storeTasks();
+  updateTaskList();
+};
+
 //Show edit input
 const showEditInput = function (e) {
   const item = e.target.closest("li.list__item");
@@ -180,6 +196,7 @@ const showEditInput = function (e) {
         </div>
     `;
     updateTaskList();
+    undoTask(oldValue);
   };
 
   const saveBtn = item.querySelector(".save");
@@ -200,11 +217,18 @@ const editTask = function (e) {
 
 //Mark as read
 const toggleCheck = function (e) {
-  e.target
+  const taskDone = e.target
     .closest("li.list__item")
-    .querySelector(".list__item__text")
-    .classList.toggle("done");
-  e.target.closest(".btn").classList.toggle("undo");
+    .querySelector(".list__item__text");
+  taskDone.classList.toggle("done");
+  const checkedBtn = e.target.closest(".btn");
+  checkedBtn.classList.toggle("undo");
+  const task = taskDone.textContent;
+  if (taskDone.classList.contains("done")) {
+    addFinishedTask(task);
+  } else {
+    undoTask(task);
+  }
 };
 
 //Add event listeners to actions
@@ -250,6 +274,13 @@ const updateTaskList = function () {
   } else {
     showEmptyTaskMessage();
   }
+};
+
+//Add to taskDone
+const addFinishedTask = function (task) {
+  taskDone.push(task);
+  storeTasks();
+  updateTaskList();
 };
 
 //Add new task
