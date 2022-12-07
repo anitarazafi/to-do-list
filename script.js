@@ -1,3 +1,5 @@
+//TODO: ADD CONFIRMATION WINDOW BEFORE DELETING A TASK
+
 const newTaskInput = document.querySelector("#new-task-input");
 const newTaskBtn = document.querySelector("#add-new-task");
 
@@ -5,11 +7,10 @@ const taskContainer = document.querySelector("#task-container");
 const listContainer = document.querySelector(".list__container");
 
 let clearAllBtn = null;
-
 let tasks = [];
 let taskDone = [];
 
-//Add task to the list
+//Append task to the list
 const appendMarkup = function (markup, parentElement) {
   parentElement.insertAdjacentHTML("afterbegin", markup);
 };
@@ -24,7 +25,6 @@ const storeTasks = function () {
 const getTasks = function () {
   return localStorage.getItem("tasks");
 };
-
 const getTasksDone = function () {
   return localStorage.getItem("taskDone");
 };
@@ -32,6 +32,11 @@ const getTasksDone = function () {
 //Check if task list is empty
 const isTaskEmpty = function () {
   return !getTasks() ? true : false;
+};
+
+//Check if a task is done
+const isDone = function (task) {
+  return taskDone.includes(task);
 };
 
 //Show empty task message
@@ -51,14 +56,14 @@ const hideEmptyTaskMessage = function () {
   listContainer.removeChild(message);
 };
 
-//Hide clear all button
+//Hide clearAll button
 const hideClearAllBtn = function () {
   const clearAllBtn = document.querySelector(".clear");
   if (!clearAllBtn) return;
   listContainer.removeChild(clearAllBtn);
 };
 
-//Show clear all button
+//Show clearAll button
 const showClearAllBtn = function () {
   hideClearAllBtn();
   const markup = `
@@ -76,11 +81,11 @@ const renderTasks = function () {
         <li class="list__item">
             <div class="list__item">
                 <span class="list__item__text ${
-                  taskDone.includes(task) ? "done" : ""
+                  isDone(task) ? "done" : ""
                 }">${task}</span>
                 <span class="list__item__action">
                     <button class="btn action mark-as-done ${
-                      taskDone.includes(task) ? "undo" : ""
+                      isDone(task) ? "undo" : ""
                     }">
                     <i class="fa-solid fa-check"></i>
                     </button>
@@ -121,7 +126,7 @@ const addTaskToList = function (newTask) {
   appendMarkup(markup, taskContainer);
 };
 
-//Clear all list
+//Clear all list items
 const clearList = function () {
   localStorage.clear();
   tasks = [];
@@ -134,7 +139,6 @@ const clearList = function () {
 const deleteTask = function (e) {
   const item = e.target.closest("li.list__item");
   item.remove();
-  const itemValue = item.querySelector(".list__item__text").textContent;
   tasks.splice(tasks.indexOf(item), 1);
   storeTasks();
   updateTaskList();
